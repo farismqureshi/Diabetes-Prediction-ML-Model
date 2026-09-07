@@ -1,0 +1,81 @@
+{
+ "feature_selection": [
+  {
+   "k": 3,
+   "features": "GenHlth, BMI, Age",
+   "ROC-AUC": 0.7816,
+   "Recall": 0.7534,
+   "F1": 0.4501,
+   "PR-AUC": 0.416
+  },
+  {
+   "k": 5,
+   "features": "GenHlth, BMI, Age, HighBP, HighChol",
+   "ROC-AUC": 0.7996,
+   "Recall": 0.766,
+   "F1": 0.4684,
+   "PR-AUC": 0.4465
+  },
+  {
+   "k": 7,
+   "features": "GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck",
+   "ROC-AUC": 0.8023,
+   "Recall": 0.7689,
+   "F1": 0.4706,
+   "PR-AUC": 0.4495
+  },
+  {
+   "k": 10,
+   "features": "GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck, PhysHlth, MentHlth, Sex",
+   "ROC-AUC": 0.8052,
+   "Recall": 0.7729,
+   "F1": 0.4738,
+   "PR-AUC": 0.4528
+  },
+  {
+   "k": 15,
+   "features": "GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck, PhysHlth, MentHlth, Sex, HvyAlcoholConsump, Education, Smoker, Veggies, HeartDiseaseorAttack",
+   "ROC-AUC": 0.808,
+   "Recall": 0.7716,
+   "F1": 0.4765,
+   "PR-AUC": 0.4578
+  },
+  {
+   "k": 21,
+   "features": "GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck, PhysHlth, MentHlth, Sex, HvyAlcoholConsump, Education, Smoker, Veggies, HeartDiseaseorAttack, DiffWalk, Fruits, PhysActivity, AnyHealthcare, NoDocbcCost, Stroke",
+   "ROC-AUC": 0.8088,
+   "Recall": 0.7715,
+   "F1": 0.4776,
+   "PR-AUC": 0.46
+  }
+ ],
+ "full_auc": 0.8088,
+ "confusion_matrices_oof": {
+  "Logistic Regression": {
+   "TN": 107622,
+   "FP": 44421,
+   "FN": 7967,
+   "TP": 23814
+  },
+  "Decision Tree": {
+   "TN": 106771,
+   "FP": 45272,
+   "FN": 8432,
+   "TP": 23349
+  },
+  "Gaussian Naive Bayes": {
+   "TN": 105673,
+   "FP": 46370,
+   "FN": 9253,
+   "TP": 22528
+  },
+  "LightGBM": {
+   "TN": 105662,
+   "FP": 46381,
+   "FN": 7261,
+   "TP": 24520
+  }
+ },
+ "n_train": 183824,
+ "n_pos": 31781
+}

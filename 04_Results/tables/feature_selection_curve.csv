@@ -1,0 +1,7 @@
+k,features,ROC-AUC,Recall,F1,PR-AUC
+3,"GenHlth, BMI, Age",0.7816,0.7534,0.4501,0.416
+5,"GenHlth, BMI, Age, HighBP, HighChol",0.7996,0.766,0.4684,0.4465
+7,"GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck",0.8023,0.7689,0.4706,0.4495
+10,"GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck, PhysHlth, MentHlth, Sex",0.8052,0.7729,0.4738,0.4528
+15,"GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck, PhysHlth, MentHlth, Sex, HvyAlcoholConsump, Education, Smoker, Veggies, HeartDiseaseorAttack",0.808,0.7716,0.4765,0.4578
+21,"GenHlth, BMI, Age, HighBP, HighChol, Income, CholCheck, PhysHlth, MentHlth, Sex, HvyAlcoholConsump, Education, Smoker, Veggies, HeartDiseaseorAttack, DiffWalk, Fruits, PhysActivity, AnyHealthcare, NoDocbcCost, Stroke",0.8088,0.7715,0.4776,0.46
