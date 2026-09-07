@@ -88,29 +88,31 @@ This dataset was chosen over the alternatives deliberately. Available clinical d
 
 ## Repository Structure
 
-```
+
 00_START_HERE.pdf     Start here — project orientation
 01_Report/            Full 32-page technical report with all figures
 02_Code/              Analysis and modelling code
 03_Dataset/           The BRFSS 2015 data
 04_Results/           Figures, confusion matrices, performance charts
 05_Environment/       Dependencies and environment setup
-```
+
 
 ---
-
 ## Running It
 
-```bash
+bash
 git clone https://github.com/farismqureshi/Diabetes-Prediction-ML-Model.git
 cd Diabetes-Prediction-ML-Model
 pip install -r 05_Environment/requirements.txt
-```
 
-Then run the code in `02_Code/` in order.
 
----
+Then run the notebooks in `02_Code/` in order:
 
+1. 01_data_exploration_and_preprocessing.ipynb` — EDA, cleaning, and the train/test split
+2. 02_model_training_and_selection.ipynb` — cross-validated comparison of the four models
+3. 03_final_evaluation.ipynb` — final evaluation of LightGBM on the held-out test set
+
+Conda users can use `05_Environment/environment.yml` instead.
 ## Built With
 
 Python · pandas · NumPy · scikit-learn · LightGBM · Matplotlib · Seaborn
@@ -119,8 +121,7 @@ Python · pandas · NumPy · scikit-learn · LightGBM · Matplotlib · Seaborn
 
 ## Authors
 
-**Faris Mujtaba Qureshi** — 2022-EE-80
-**Mustajib Sami** — 2022-EE-71
+**Faris Mujtaba Qureshi** 
 
 EE-439 Introduction to Machine Learning, Department of Electrical Engineering, University of Engineering and Technology (UET) Lahore.
 
