@@ -6,6 +6,11 @@ A machine learning screening tool built on the CDC BRFSS 2015 health survey (253
 
 ---
 
+## Web interface
+
+A browser front end for the trained model, with live SHAP explanations and an
+adjustable decision threshold — see [`06_Frontend/`](06_Frontend/).
+
 ## The Problem
 
 Type 2 diabetes is one of the most common chronic conditions worldwide, and a large share of people who have it don't know. Confirming a diagnosis requires a laboratory blood test — HbA1c or fasting plasma glucose — which costs money, requires a clinic visit, and simply isn't available to much of the population.
