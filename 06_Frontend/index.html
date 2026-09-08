@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diabetes Risk Screening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   Tokens — light is the base; dark redefines tokens only.
+   ============================================================ */
+:root {
+  --ground:      #eceeec;
+  --surface:     #ffffff;
+  --surface-2:   #f4f6f4;
+  --line:        #d6dad7;
+  --line-strong: #b7bfba;
+  --ink:         #16211f;
+  --ink-2:       #4b5a56;
+  --ink-3:       #7b8781;
+  --accent:      #0d6a63;
+  --accent-ink:  #ffffff;
+  --accent-soft: #dcebe8;
+  --low:         #46795a;
+  --elevated:    #a97213;
+  --high:        #a33c2b;
+  --low-soft:    #dfeae1;
+  --elevated-soft:#f2e6cd;
+  --high-soft:   #f2dfda;
+  --shadow:      0 1px 2px rgba(22,33,31,.05), 0 8px 24px -16px rgba(22,33,31,.28);
+  --focus:       #0d6a63;
+
+  --step--1: 0.785rem;
+  --step-0:  0.925rem;
+  --step-1:  1.06rem;
+  --step-2:  1.35rem;
+  --step-3:  1.9rem;
+  --step-4:  3.4rem;
+
+  --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --serif: "Newsreader", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #0e1614;
+    --surface:     #16201e;
+    --surface-2:   #1b2523;
+    --line:        #293633;
+    --line-strong: #3c4b46;
+    --ink:         #e7ece9;
+    --ink-2:       #a4b1ac;
+    --ink-3:       #7d8b85;
+    --accent:      #3fb3a3;
+    --accent-ink:  #08201d;
+    --accent-soft: #11342f;
+    --low:         #74b184;
+    --elevated:    #d59d3c;
+    --high:        #dd7d6b;
+    --low-soft:    #16301f;
+    --elevated-soft:#33280f;
+    --high-soft:   #35201c;
+    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    --focus:       #3fb3a3;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:      #0e1614;
+  --surface:     #16201e;
+  --surface-2:   #1b2523;
+  --line:        #293633;
+  --line-strong: #3c4b46;
+  --ink:         #e7ece9;
+  --ink-2:       #a4b1ac;
+  --ink-3:       #7d8b85;
+  --accent:      #3fb3a3;
+  --accent-ink:  #08201d;
+  --accent-soft: #11342f;
+  --low:         #74b184;
+  --elevated:    #d59d3c;
+  --high:        #dd7d6b;
+  --low-soft:    #16301f;
+  --elevated-soft:#33280f;
+  --high-soft:   #35201c;
+  --shadow:      0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  --focus:       #3fb3a3;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ============================================================
+   Masthead
+   ============================================================ */
+.masthead {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.masthead-inner {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 22px 28px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 20px 32px;
+  justify-content: space-between;
+}
+
+.brand { display: flex; flex-direction: column; gap: 4px; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.brand h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--step-3);
+  letter-spacing: -.015em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+
+.modelcard {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.modelcard div {
+  padding: 8px 16px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.modelcard div:last-child { border-right: 0; }
+
+.modelcard dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.modelcard dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Shell
+   ============================================================ */
+.shell {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 1040px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ============================================================
+   Form
+   ============================================================ */
+.form-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.form-head h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--step-2);
+  letter-spacing: -.01em;
+}
+
+.form-head .note { color: var(--ink-3); font-size: var(--step--1); }
+
+.sections { display: flex; flex-direction: column; gap: 18px; }
+
+fieldset {
+  margin: 0;
+  padding: 0 0 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+legend {
+  margin-left: 18px;
+  padding: 0 8px;
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.rows { display: flex; flex-direction: column; }
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 226px;
+  gap: 14px 20px;
+  align-items: center;
+  padding: 13px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.rows > .row:first-child { border-top: 0; }
+
+@media (max-width: 620px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+}
+
+.q { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.q .label { font-weight: 500; }
+
+.q .hint { color: var(--ink-3); font-size: var(--step--1); }
+
+.varname {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: .02em;
+}
+
+.varname b {
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Segmented control */
+.seg {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.seg label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 4px;
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--ink-2);
+  cursor: pointer;
+  border-right: 1px solid var(--line-strong);
+  transition: background .12s ease, color .12s ease;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.seg label:last-child { border-right: 0; }
+
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+
+.seg label:hover { background: var(--accent-soft); }
+
+.seg input:checked + span {
+  color: var(--accent-ink);
+}
+
+.seg label:has(input:checked) {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.seg label:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+/* Select */
+select {
+  width: 100%;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+/* Slider */
+.slider { display: flex; align-items: center; gap: 12px; }
+
+input[type="range"] { accent-color: var(--accent); cursor: pointer; }
+
+.slider input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  height: 20px;
+}
+
+.readout {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  min-width: 62px;
+  text-align: right;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.readout small { color: var(--ink-3); font-weight: 400; }
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+button {
+  font: inherit;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 9px 16px;
+  transition: background .12s ease, border-color .12s ease;
+}
+
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-primary:disabled { opacity: .5; cursor: progress; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+  border-color: var(--line-strong);
+}
+
+.btn-ghost:hover { background: var(--surface); color: var(--ink); }
+
+.disclaimer {
+  margin: 22px 0 0;
+  padding: 12px 16px;
+  border-left: 2px solid var(--line-strong);
+  color: var(--ink-3);
+  font-size: var(--step--1);
+  max-width: 68ch;
+}
+
+/* ============================================================
+   Result panel
+   ============================================================ */
+.panel {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 1040px) { .panel { position: static; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.card > header {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card > header h3 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.card .body { padding: 16px; }
+
+/* Readout */
+.score { display: flex; align-items: baseline; gap: 10px; }
+
+.score .value {
+  font-family: var(--serif);
+  font-size: var(--step-4);
+  font-weight: 500;
+  line-height: .9;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--band-color, var(--ink));
+}
+
+.score .unit {
+  font-family: var(--serif);
+  font-size: var(--step-2);
+  color: var(--ink-3);
+}
+
+.score-caption {
+  margin: 8px 0 0;
+  color: var(--ink-2);
+  font-size: var(--step--1);
+  max-width: 40ch;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px 4px 9px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border: 1px solid currentColor;
+}
+
+.pill::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pill[data-band="low"]      { color: var(--low);      background: var(--low-soft); }
+.pill[data-band="elevated"] { color: var(--elevated); background: var(--elevated-soft); }
+.pill[data-band="high"]     { color: var(--high);     background: var(--high-soft); }
+.pill[data-band="none"]     { color: var(--ink-3);    background: var(--surface-2); }
+
+/* Scale */
+.scale { margin-top: 20px; }
+
+.scale-track {
+  position: relative;
+  height: 9px;
+  border-radius: 5px;
+  background: linear-gradient(to right, var(--low-soft), var(--elevated-soft) 55%, var(--high-soft));
+  border: 1px solid var(--line);
+}
+
+.scale-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 4px 0 0 4px;
+  background: var(--band-color, var(--ink-3));
+  opacity: .85;
+  width: 0;
+  transition: width .35s cubic-bezier(.22,.7,.3,1), background .2s ease;
+}
+
+.marker {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  transform: translateX(-1px);
+}
+
+.marker.threshold { background: var(--ink);   box-shadow: 0 0 0 1px var(--surface); }
+.marker.baserate  { background: var(--ink-3); box-shadow: 0 0 0 1px var(--surface); }
+
+.scale-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.scale-keys {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.scale-keys span { display: flex; align-items: center; gap: 8px; }
+
+.key-swatch { width: 14px; height: 2px; flex: none; }
+.key-swatch.threshold { background: var(--ink); }
+.key-swatch.baserate  { background: var(--ink-3); }
+
+/* Threshold control */
+.threshold-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.threshold-row .lbl { font-size: var(--step--1); color: var(--ink-2); white-space: nowrap; }
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.presets button {
+  padding: 4px 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.presets button:hover { background: var(--accent-soft); color: var(--accent); }
+
+.presets button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+/* Factors */
+.factors { display: flex; flex-direction: column; }
+
+.factor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.factors > .factor:first-child { border-top: 0; }
+
+.factor .name { font-size: var(--step--1); min-width: 0; }
+.factor .name em { font-style: normal; color: var(--ink-3); }
+
+.bar { position: relative; height: 8px; background: var(--surface-2); border-radius: 2px; }
+
+.bar .mid { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--line-strong); }
+
+.bar i {
+  position: absolute;
+  top: 0; bottom: 0;
+  border-radius: 2px;
+  display: block;
+}
+
+.bar i[data-dir="up"]   { left: 50%;  background: var(--high); }
+.bar i[data-dir="down"] { right: 50%; background: var(--low); }
+
+/* Connection / endpoint */
+.conn { display: flex; flex-direction: column; gap: 10px; }
+
+.field-inline { display: flex; flex-direction: column; gap: 5px; }
+
+.field-inline label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+input[type="text"] {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 7px 10px;
+  width: 100%;
+}
+
+.status {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+.status .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  flex: none; margin-top: 6px;
+  background: var(--ink-3);
+}
+
+.status[data-state="ok"]      .dot { background: var(--low); }
+.status[data-state="error"]   .dot { background: var(--high); }
+.status[data-state="pending"] .dot { background: var(--elevated); }
+
+.status code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+pre {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+  padding: 12px 16px;
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre;
+}
+
+details > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+details > summary::-webkit-details-marker { display: none; }
+details > summary::after { content: "+"; font-size: 15px; }
+details[open] > summary::after { content: "\2013"; }
+details[open] > summary { border-bottom: 1px solid var(--line); }
+
+.hidden { display: none !important; }
+
+footer.foot {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 8px 28px 40px;
+  color: var(--ink-3);
+  font-size: var(--step--1);
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <span class="eyebrow">EE-439 · Introduction to Machine Learning</span>
+      <h1>Diabetes Risk Screening</h1>
+      <p>Predicting diabetes risk from behavioural and demographic health indicators. Twenty-one BRFSS survey responses in, one calibrated probability out.</p>
+    </div>
+    <dl class="modelcard">
+      <div><dt>Model</dt><dd>LightGBM</dd></div>
+      <div><dt>Test ROC-AUC</dt><dd>0.814</dd></div>
+      <div><dt>Recall</dt><dd>77.3%</dd></div>
+      <div><dt>Prevalence</dt><dd>17.3%</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="shell">
+
+  <!-- ============ QUESTIONNAIRE ============ -->
+  <section>
+    <div class="form-head">
+      <h2>Respondent record</h2>
+      <span class="note">Pre-filled with an example respondent · encoded values shown in&nbsp;<span class="varname"><b>green</b></span></span>
+    </div>
+
+    <form id="form" class="sections" autocomplete="off">
+      <!-- rendered by script -->
+    </form>
+
+    <div class="actions">
+      <button type="button" class="btn-primary" id="run">Run prediction</button>
+      <button type="button" class="btn-ghost" id="reset">Reset to example</button>
+      <button type="button" class="btn-ghost" id="clear">All zeros</button>
+      <button type="button" class="btn-ghost" id="copy">Copy JSON</button>
+    </div>
+
+    <p class="disclaimer">
+      This is a coursework model trained on self-reported survey data, not a diagnostic instrument.
+      BRFSS labels record whether a respondent was ever <em>told</em> they have diabetes, so the target
+      captures diagnosis, not disease. Output is a screening probability only.
+    </p>
+  </section>
+
+  <!-- ============ RESULT PANEL ============ -->
+  <aside class="panel">
+
+    <div class="card">
+      <header>
+        <h3>Predicted risk</h3>
+        <span class="pill" id="band" data-band="none">Not scored</span>
+      </header>
+      <div class="body">
+        <div class="score">
+          <span class="value" id="prob">—</span>
+          <span class="unit">%</span>
+        </div>
+        <p class="score-caption" id="caption">Probability that this respondent has been diagnosed with diabetes or pre-diabetes.</p>
+
+        <div class="scale">
+          <div class="scale-track">
+            <div class="scale-fill" id="fill"></div>
+            <div class="marker baserate" id="baserate" style="left: 17.3%"></div>
+            <div class="marker threshold" id="thmark" style="left: 50%"></div>
+          </div>
+          <div class="scale-legend"><span>0%</span><span>50%</span><span>100%</span></div>
+          <div class="scale-keys">
+            <span><i class="key-swatch threshold"></i> Decision threshold — above this, classified positive</span>
+            <span><i class="key-swatch baserate"></i> Cohort prevalence, 17.3% of the training set</span>
+          </div>
+        </div>
+
+        <div class="threshold-row">
+          <span class="lbl">Threshold</span>
+          <input type="range" id="threshold" min="5" max="95" step="1" value="50" aria-label="Decision threshold">
+          <span class="readout" id="threshold-out">0.50</span>
+        </div>
+
+        <div class="presets" id="presets">
+          <button type="button" data-t="33">0.33 · recall 0.90</button>
+          <button type="button" data-t="50">0.50 · default</button>
+          <button type="button" data-t="62">0.62 · best F1</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" id="factors-card">
+      <header><h3>Leading contributors</h3></header>
+      <div class="factors" id="factors"></div>
+    </div>
+
+    <div class="card">
+      <header><h3>Inference API</h3></header>
+      <div class="body conn">
+        <div class="field-inline">
+          <label for="endpoint">Endpoint</label>
+          <input type="text" id="endpoint" value="http://127.0.0.1:8000/predict" spellcheck="false">
+        </div>
+        <div class="status" id="status" data-state="idle">
+          <span class="dot"></span>
+          <span id="status-text">Not yet contacted. Start the API, then run a prediction.</span>
+        </div>
+      </div>
+      <details>
+        <summary>Request payload</summary>
+        <pre id="payload"></pre>
+      </details>
+    </div>
+
+  </aside>
+</main>
+
+<footer class="foot">
+  Feature encodings follow the BRFSS 2015 codebook as published in the <span class="varname">diabetes_binary_health_indicators</span> release.
+</footer>
+
+<script>
+"use strict";
+
+/* ------------------------------------------------------------------
+   Schema — order here is the column order sent to the model.
+   ------------------------------------------------------------------ */
+const YESNO = [["0", "No"], ["1", "Yes"]];
+
+const SCHEMA = [
+  {
+    section: "Clinical history",
+    fields: [
+      { key: "HighBP",               type: "seg", options: YESNO, label: "High blood pressure",
+        hint: "Ever told by a health professional that blood pressure is high" },
+      { key: "HighChol",             type: "seg", options: YESNO, label: "High cholesterol",
+        hint: "Ever told that blood cholesterol is high" },
+      { key: "CholCheck",            type: "seg", options: YESNO, label: "Cholesterol check in 5 years",
+        hint: "Any cholesterol test within the past five years" },
+      { key: "BMI",                  type: "range", min: 12, max: 60, step: 1, unit: "kg/m²",
+        label: "Body mass index", hint: "Self-reported height and weight, clipped to 12–60 as in training" },
+      { key: "Stroke",               type: "seg", options: YESNO, label: "History of stroke",
+        hint: "Ever told they had a stroke" },
+      { key: "HeartDiseaseorAttack", type: "seg", options: YESNO, label: "Coronary heart disease or MI",
+        hint: "Ever told they had CHD or a myocardial infarction" }
+    ]
+  },
+  {
+    section: "Lifestyle",
+    fields: [
+      { key: "Smoker",            type: "seg", options: YESNO, label: "Smoked 100+ cigarettes",
+        hint: "At least 100 cigarettes in their lifetime — roughly five packs" },
+      { key: "PhysActivity",      type: "seg", options: YESNO, label: "Physical activity in 30 days",
+        hint: "Any exercise outside of regular job duties" },
+      { key: "Fruits",            type: "seg", options: YESNO, label: "Fruit once or more per day",
+        hint: "Consumes fruit at least once daily" },
+      { key: "Veggies",           type: "seg", options: YESNO, label: "Vegetables once or more per day",
+        hint: "Consumes vegetables at least once daily" },
+      { key: "HvyAlcoholConsump", type: "seg", options: YESNO, label: "Heavy alcohol consumption",
+        hint: "More than 14 drinks per week (men) or 7 (women)" }
+    ]
+  },
+  {
+    section: "General health and function",
+    fields: [
+      { key: "GenHlth", type: "select", label: "Self-rated general health",
+        hint: "Single-item global health rating",
+        options: [["1","1 — Excellent"],["2","2 — Very good"],["3","3 — Good"],["4","4 — Fair"],["5","5 — Poor"]] },
+      { key: "MentHlth", type: "range", min: 0, max: 30, step: 1, unit: "days",
+        label: "Poor mental health days", hint: "Days in the past 30 that mental health was not good" },
+      { key: "PhysHlth", type: "range", min: 0, max: 30, step: 1, unit: "days",
+        label: "Poor physical health days", hint: "Days in the past 30 with illness or injury" },
+      { key: "DiffWalk", type: "seg", options: YESNO, label: "Difficulty walking or climbing stairs",
+        hint: "Serious difficulty with either" }
+    ]
+  },
+  {
+    section: "Access to care",
+    fields: [
+      { key: "AnyHealthcare", type: "seg", options: YESNO, label: "Has health coverage",
+        hint: "Any kind of health-care coverage or insurance plan" },
+      { key: "NoDocbcCost",   type: "seg", options: YESNO, label: "Skipped a doctor over cost",
+        hint: "Needed to see a doctor in the past 12 months but could not, because of cost" }
+    ]
+  },
+  {
+    section: "Demographics",
+    fields: [
+      { key: "Sex", type: "seg", label: "Sex", hint: "As recorded by the survey",
+        options: [["0","Female"],["1","Male"]] },
+      { key: "Age", type: "select", label: "Age group", hint: "Fourteen-level BRFSS age band, coded 1–13",
+        options: [["1","1 — 18 to 24"],["2","2 — 25 to 29"],["3","3 — 30 to 34"],["4","4 — 35 to 39"],
+                  ["5","5 — 40 to 44"],["6","6 — 45 to 49"],["7","7 — 50 to 54"],["8","8 — 55 to 59"],
+                  ["9","9 — 60 to 64"],["10","10 — 65 to 69"],["11","11 — 70 to 74"],["12","12 — 75 to 79"],
+                  ["13","13 — 80 or older"]] },
+      { key: "Education", type: "select", label: "Highest education", hint: "BRFSS education level, coded 1–6",
+        options: [["1","1 — Never attended school"],["2","2 — Grades 1–8"],["3","3 — Grades 9–11"],
+                  ["4","4 — High school graduate"],["5","5 — Some college"],["6","6 — College graduate"]] },
+      { key: "Income", type: "select", label: "Annual household income", hint: "BRFSS income bracket, coded 1–8",
+        options: [["1","1 — Under $10,000"],["2","2 — $10,000 to $14,999"],["3","3 — $15,000 to $19,999"],
+                  ["4","4 — $20,000 to $24,999"],["5","5 — $25,000 to $34,999"],["6","6 — $35,000 to $49,999"],
+                  ["7","7 — $50,000 to $74,999"],["8","8 — $75,000 or more"]] }
+    ]
+  }
+];
+
+const FEATURE_ORDER = SCHEMA.flatMap(s => s.fields.map(f => f.key));
+
+/* An unremarkable middle-aged respondent — enough signal to be interesting. */
+const EXAMPLE = {
+  HighBP: 1, HighChol: 1, CholCheck: 1, BMI: 31, Smoker: 1, Stroke: 0,
+  HeartDiseaseorAttack: 0, PhysActivity: 0, Fruits: 0, Veggies: 1,
+  HvyAlcoholConsump: 0, GenHlth: 3, MentHlth: 4, PhysHlth: 8, DiffWalk: 0,
+  AnyHealthcare: 1, NoDocbcCost: 0, Sex: 1, Age: 9, Education: 4, Income: 5
+};
+
+const ZEROS = Object.fromEntries(FEATURE_ORDER.map(k => [k, k === "BMI" ? 12 : (["GenHlth","Age","Education","Income"].includes(k) ? 1 : 0)]));
+
+const LABELS = Object.fromEntries(SCHEMA.flatMap(s => s.fields.map(f => [f.key, f.label])));
+
+/* ------------------------------------------------------------------
+   Render the form
+   ------------------------------------------------------------------ */
+const form = document.getElementById("form");
+
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else n.setAttribute(k, v);
+  }
+  kids.forEach(c => n.appendChild(c));
+  return n;
+}
+
+SCHEMA.forEach(section => {
+  const fs = el("fieldset");
+  fs.appendChild(el("legend", { text: section.section }));
+  const rows = el("div", { class: "rows" });
+
+  section.fields.forEach(f => {
+    const row = el("div", { class: "row" });
+
+    const q = el("div", { class: "q" });
+    q.appendChild(el("span", { class: "label", text: f.label }));
+    q.appendChild(el("span", { class: "hint", text: f.hint }));
+    const vn = el("span", { class: "varname" });
+    vn.append(f.key + " = ");
+    const chip = el("b", { id: "chip-" + f.key, text: "0" });
+    vn.appendChild(chip);
+    q.appendChild(vn);
+    row.appendChild(q);
+
+    let control;
+    if (f.type === "seg") {
+      control = el("div", { class: "seg", role: "group", "aria-label": f.label });
+      f.options.forEach(([val, text]) => {
+        const lab = el("label");
+        const inp = el("input", { type: "radio", name: f.key, value: val });
+        lab.appendChild(inp);
+        lab.appendChild(el("span", { text }));
+        control.appendChild(lab);
+      });
+    } else if (f.type === "select") {
+      control = el("select", { name: f.key, "aria-label": f.label });
+      f.options.forEach(([val, text]) => {
+        const o = el("option", { value: val, text });
+        control.appendChild(o);
+      });
+    } else {
+      control = el("div", { class: "slider" });
+      const inp = el("input", {
+        type: "range", name: f.key, min: f.min, max: f.max, step: f.step, "aria-label": f.label
+      });
+      const out = el("span", { class: "readout", id: "out-" + f.key });
+      control.appendChild(inp);
+      control.appendChild(out);
+    }
+    row.appendChild(control);
+    rows.appendChild(row);
+  });
+
+  fs.appendChild(rows);
+  form.appendChild(fs);
+});
+
+/* ------------------------------------------------------------------
+   State in / out
+   ------------------------------------------------------------------ */
+function setValues(v) {
+  FEATURE_ORDER.forEach(k => {
+    const val = String(v[k]);
+    const radios = form.querySelectorAll(`input[type="radio"][name="${k}"]`);
+    if (radios.length) {
+      radios.forEach(r => { r.checked = (r.value === val); });
+      return;
+    }
+    const other = form.querySelector(`[name="${k}"]`);
+    if (other) other.value = val;
+  });
+  refresh();
+}
+
+function getValues() {
+  const out = {};
+  FEATURE_ORDER.forEach(k => {
+    const checked = form.querySelector(`input[type="radio"][name="${k}"]:checked`);
+    const node = checked || form.querySelector(`[name="${k}"]`);
+    out[k] = node ? Number(node.value) : 0;
+  });
+  return out;
+}
+
+function refresh() {
+  const v = getValues();
+  FEATURE_ORDER.forEach(k => {
+    const chip = document.getElementById("chip-" + k);
+    if (chip) chip.textContent = v[k];
+    const out = document.getElementById("out-" + k);
+    if (out) {
+      const f = SCHEMA.flatMap(s => s.fields).find(x => x.key === k);
+      out.innerHTML = v[k] + " <small>" + f.unit + "</small>";
+    }
+  });
+  document.getElementById("payload").textContent = JSON.stringify(v, null, 2);
+}
+
+form.addEventListener("input", refresh);
+form.addEventListener("change", refresh);
+
+/* ------------------------------------------------------------------
+   Threshold + banding
+   ------------------------------------------------------------------ */
+const thresholdInput = document.getElementById("threshold");
+const thresholdOut   = document.getElementById("threshold-out");
+const thmark         = document.getElementById("thmark");
+let lastProb = null;
+
+function threshold() { return Number(thresholdInput.value) / 100; }
+
+function applyThreshold() {
+  thresholdOut.textContent = threshold().toFixed(2);
+  thmark.style.left = thresholdInput.value + "%";
+  document.querySelectorAll("#presets button").forEach(b => {
+    b.setAttribute("aria-pressed", String(b.dataset.t === thresholdInput.value));
+  });
+  if (lastProb !== null) paint(lastProb);
+}
+
+thresholdInput.addEventListener("input", applyThreshold);
+
+document.getElementById("presets").addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  thresholdInput.value = btn.dataset.t;
+  applyThreshold();
+});
+
+function bandOf(p) {
+  const t = threshold();
+  if (p >= t) return "high";
+  if (p >= t * 0.6) return "elevated";
+  return "low";
+}
+
+const BAND_TEXT = {
+  low:      "Below threshold. Screening does not flag this respondent.",
+  elevated: "Below threshold but approaching it. Worth a second look in a screening workflow.",
+  high:     "At or above threshold. Classified positive by the model."
+};
+
+const BAND_NAME = { low: "Below threshold", elevated: "Near threshold", high: "Above threshold" };
+
+function paint(p) {
+  const pct = p * 100;
+  const band = bandOf(p);
+  const colorVar = { low: "var(--low)", elevated: "var(--elevated)", high: "var(--high)" }[band];
+
+  const probEl = document.getElementById("prob");
+  probEl.textContent = pct.toFixed(1);
+  probEl.style.setProperty("--band-color", colorVar);
+
+  const fill = document.getElementById("fill");
+  fill.style.width = Math.min(100, Math.max(0, pct)) + "%";
+  fill.style.setProperty("--band-color", colorVar);
+
+  const pill = document.getElementById("band");
+  pill.dataset.band = band;
+  pill.textContent = BAND_NAME[band];
+
+  const ratio = p / 0.173;
+  document.getElementById("caption").textContent =
+    BAND_TEXT[band] + " That is " + ratio.toFixed(1) + "× the cohort prevalence of 17.3%.";
+}
+
+function clearResult(message) {
+  lastProb = null;
+  const probEl = document.getElementById("prob");
+  probEl.textContent = "—";
+  probEl.style.removeProperty("--band-color");
+  document.getElementById("fill").style.width = "0";
+  const pill = document.getElementById("band");
+  pill.dataset.band = "none";
+  pill.textContent = "Not scored";
+  document.getElementById("caption").textContent = message;
+  document.getElementById("factors-card").classList.add("hidden");
+}
+
+/* ------------------------------------------------------------------
+   Contributing factors
+   ------------------------------------------------------------------ */
+function renderFactors(factors) {
+  const card = document.getElementById("factors-card");
+  const host = document.getElementById("factors");
+  host.textContent = "";
+
+  if (!Array.isArray(factors) || factors.length === 0) {
+    card.classList.add("hidden");
+    return;
+  }
+
+  const max = Math.max(...factors.map(f => Math.abs(Number(f.contribution) || 0))) || 1;
+
+  factors.slice(0, 6).forEach(f => {
+    const c = Number(f.contribution) || 0;
+    const row = el("div", { class: "factor" });
+
+    const name = el("div", { class: "name" });
+    name.append(LABELS[f.feature] || f.feature || "");
+    if (f.value !== undefined) name.appendChild(el("em", { text: "  ·  " + f.value }));
+    row.appendChild(name);
+
+    const bar = el("div", { class: "bar" });
+    bar.appendChild(el("div", { class: "mid" }));
+    const i = el("i");
+    i.dataset.dir = c >= 0 ? "up" : "down";
+    i.style.width = (Math.abs(c) / max * 50) + "%";
+    bar.appendChild(i);
+    row.appendChild(bar);
+
+    host.appendChild(row);
+  });
+
+  card.classList.remove("hidden");
+}
+
+/* ------------------------------------------------------------------
+   Inference call
+   ------------------------------------------------------------------ */
+const statusEl = document.getElementById("status");
+const statusText = document.getElementById("status-text");
+const runBtn = document.getElementById("run");
+
+function setStatus(state, html) {
+  statusEl.dataset.state = state;
+  statusText.innerHTML = html;
+}
+
+async function predict() {
+  const url = document.getElementById("endpoint").value.trim();
+  const payload = getValues();
+
+  runBtn.disabled = true;
+  setStatus("pending", "Posting 21 features to <code>" + url + "</code>…");
+
+  const started = performance.now();
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const ms = Math.round(performance.now() - started);
+
+    if (!res.ok) {
+      const body = await res.text();
+      clearResult("The server rejected the request. Check the feature names and types against the payload below.");
+      setStatus("error", "HTTP " + res.status + " from the API. <code>" + body.slice(0, 160).replace(/</g, "&lt;") + "</code>");
+      return;
+    }
+
+    const data = await res.json();
+    const p = Number(data.probability);
+
+    if (!Number.isFinite(p)) {
+      clearResult("The response parsed, but carried no numeric probability field.");
+      setStatus("error", "Response is missing a numeric <code>probability</code>. Received keys: <code>" + Object.keys(data).join(", ") + "</code>");
+      return;
+    }
+
+    lastProb = p;
+    paint(p);
+    renderFactors(data.factors);
+    setStatus("ok", "Scored in " + ms + " ms by <code>" + (data.model || "the model") + "</code>.");
+
+  } catch (err) {
+    clearResult("No response from the model server, so nothing has been scored.");
+    setStatus("error",
+      "Nothing is listening at <code>" + url + "</code>. Start the API with " +
+      "<code>uvicorn app:app --reload --port 8000</code>, then open " +
+      "<code>http://127.0.0.1:8000/</code> — that serves this page from the API itself.");
+  } finally {
+    runBtn.disabled = false;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Wiring
+   ------------------------------------------------------------------ */
+runBtn.addEventListener("click", predict);
+
+document.getElementById("reset").addEventListener("click", () => {
+  setValues(EXAMPLE);
+  clearResult("Example respondent restored. Run a prediction to score it.");
+  setStatus("idle", "Not yet contacted. Start the API, then run a prediction.");
+});
+
+document.getElementById("clear").addEventListener("click", () => {
+  setValues(ZEROS);
+  clearResult("All features at their minimum level. Run a prediction to score it.");
+});
+
+document.getElementById("copy").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(getValues(), null, 2));
+    btn.textContent = "Copied";
+  } catch {
+    btn.textContent = "Copy blocked";
+  }
+  setTimeout(() => { btn.textContent = "Copy JSON"; }, 1600);
+});
+
+/* When this page is served by app.py, talk to the same origin. When it is
+   opened straight off disk, fall back to the default local port. */
+const endpointInput = document.getElementById("endpoint");
+if (location.protocol === "http:" || location.protocol === "https:") {
+  endpointInput.value = location.origin + "/predict";
+}
+
+setValues(EXAMPLE);
+applyThreshold();
+predict();
+</script>
+</body>
+</html>
